@@ -43,14 +43,14 @@ const Ticket = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [selectedPreview, setSelectedPreview] = useState(0);
-  
+
   // Wallet & Contract States
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
   const [mintCount, setMintCount] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  
+
   // NFT States
   const [totalMinted, setTotalMinted] = useState(0);
   const [maxSupply, setMaxSupply] = useState(10000);
@@ -59,8 +59,8 @@ const Ticket = () => {
   const PRICE_PER_NFT = 0.08; // AVAX
 
   const previewImages = [
-    "/src/assets/rena.png",
-    "/src/assets/rab.png",
+    "/src/assets/summit.png",
+    "/src/assets/chairstables.jpg",
     "/src/assets/rb.png",
     "/src/assets/rb2.png",
     "/src/assets/ast.png",
@@ -118,9 +118,9 @@ const Ticket = () => {
     try {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
-    
+
       console.log("Fetching contract info...");
-    
+
       const supply = await contract.totalSupply().catch(e => {
         console.error("Error fetching totalSupply:", e);
         return "N/A";
@@ -230,7 +230,7 @@ const Ticket = () => {
 
       // Estimate gas to check if transaction will fail
       const estimatedGas = await contract.mint.estimateGas(mintCount, { value: priceInWei });
-      
+
       // Add 10% buffer to estimated gas
       const gasLimit = estimatedGas * BigInt(110) / BigInt(100);
 
@@ -282,32 +282,32 @@ const Ticket = () => {
       </div>
 
       {/* Main Content */}
-      <main className="relative pt-20 px-6">
+      <main className="relative pt-12 sm:pt-16 md:pt-20 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           {/* Title Section */}
-          <div className={`text-center mb-16 transition-all duration-1000 
+          <div className={`text-center mb-8 sm:mb-12 md:mb-16 transition-all duration-1000
             ${isVisible ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'}`}>
-            <h1 className="text-6xl font-bold mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
               <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
                 Quantum Realm of Ticket Collection
               </span>
             </h1>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-xs sm:max-w-lg md:max-w-2xl mx-auto">
               Enter the quantum realm with an exclusive ticket to our unique experience. Each ticket grants you access to a one-of-a-kind event, digitally stored and verified on the blockchain.
             </p>
           </div>
 
           {/* Main Grid */}
-          <div className="grid grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Left Side - Preview */}
-            <div className={`transition-all duration-1000 delay-300 
+            <div className={`transition-all duration-1000 delay-300
               ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'}`}>
               <div className="relative group">
                 {/* Main Preview */}
-                <div className="relative aspect-square rounded-2xl overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 
+                <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20
                     group-hover:opacity-70 transition-opacity duration-300" />
-                  <img 
+                  <img
                     src={previewImages[selectedPreview] || "/placeholder.svg"}
                     alt="NFT Preview"
                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
@@ -315,16 +315,16 @@ const Ticket = () => {
                 </div>
 
                 {/* Preview Selector */}
-                <div className="flex space-x-4 mt-4 overflow-x-auto pb-2">
+                <div className="flex space-x-2 sm:space-x-4 mt-4 overflow-x-auto pb-2">
                   {previewImages.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => setSelectedPreview(index)}
-                      className={`relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0
-                        ${selectedPreview === index ? 'ring-2 ring-purple-500' : ''} 
+                      className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden flex-shrink-0
+                        ${selectedPreview === index ? 'ring-2 ring-purple-500' : ''}
                         transition-all duration-300 transform hover:scale-105`}
                     >
-                      <img 
+                      <img
                         src={previewImages[index] || "/placeholder.svg"}
                         alt={`Preview ${index + 1}`}
                         className="w-full h-full object-cover"
@@ -336,16 +336,16 @@ const Ticket = () => {
             </div>
 
             {/* Right Side - Minting Interface */}
-            <div className={`transition-all duration-1000 delay-500 
+            <div className={`mt-8 lg:mt-0 transition-all duration-1000 delay-500
               ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}`}>
-              <div className="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-purple-500/30 p-8">
+              <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-purple-500/30 p-4 sm:p-6 md:p-8">
                 {/* Price Info */}
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold mb-2">Purchase Your Ticket</h2>
+                <div className="mb-6 sm:mb-8">
+                  <h2 className="text-xl sm:text-2xl font-bold mb-2">Purchase Your Ticket</h2>
                   <div className="flex items-baseline space-x-2">
-                    <span className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 
+                    <span className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400
                       bg-clip-text text-transparent">{PRICE_PER_NFT} AVAX</span>
-                    <span className="text-gray-400">per ticket</span>
+                    <span className="text-sm sm:text-base text-gray-400">per ticket</span>
                   </div>
                 </div>
 
@@ -354,32 +354,32 @@ const Ticket = () => {
                   <button
                     onClick={connectWallet}
                     disabled={isLoading}
-                    className="w-full group relative px-6 py-4 rounded-xl overflow-hidden mb-6"
+                    className="w-full group relative px-4 sm:px-6 py-3 sm:py-4 rounded-xl overflow-hidden mb-4 sm:mb-6 text-sm sm:text-base"
                     onMouseEnter={() => setIsHovering(true)}
                     onMouseLeave={() => setIsHovering(false)}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600
                       group-hover:from-purple-500 group-hover:to-blue-500 transition-colors duration-300" />
                     <div className="relative z-10 flex items-center justify-center space-x-2">
                       {isLoading ? (
-                        <Loader className="w-5 h-5 animate-spin" />
+                        <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                       ) : (
-                        <Wallet className={`w-5 h-5 transition-transform duration-300 
+                        <Wallet className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300
                           ${isHovering ? 'rotate-12' : ''}`} />
                       )}
                       <span>{isLoading ? 'Connecting...' : 'Connect Wallet'}</span>
                     </div>
                   </button>
                 ) : (
-                  <div className="mb-6">
-                    <div className="flex items-center justify-between p-4 rounded-xl bg-purple-500/10 
+                  <div className="mb-4 sm:mb-6">
+                    <div className="flex items-center justify-between p-3 sm:p-4 rounded-lg sm:rounded-xl bg-purple-500/10
                       border border-purple-500/30">
                       <div className="flex items-center space-x-2">
-                        <Wallet className="w-5 h-5 text-purple-400" />
-                        <span className="text-sm">{formatAddress(walletAddress)}</span>
+                        <Wallet className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
+                        <span className="text-xs sm:text-sm">{formatAddress(walletAddress)}</span>
                       </div>
-                      <button 
-                        className="text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                      <button
+                        className="text-xs sm:text-sm text-purple-400 hover:text-purple-300 transition-colors"
                         onClick={() => setIsWalletConnected(false)}
                       >
                         Disconnect
@@ -389,33 +389,33 @@ const Ticket = () => {
                 )}
 
                 {/* Mint Amount Selector */}
-                <div className="mb-8">
-                  <label className="block text-sm text-gray-400 mb-2">Quantity</label>
-                  <div className="flex items-center space-x-4">
-                    <button 
+                <div className="mb-6 sm:mb-8">
+                  <label className="block text-xs sm:text-sm text-gray-400 mb-2">Quantity</label>
+                  <div className="flex items-center space-x-3 sm:space-x-4">
+                    <button
                       onClick={() => setMintCount(Math.max(1, mintCount - 1))}
-                      className="p-2 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 
+                      className="p-1.5 sm:p-2 rounded-lg bg-purple-500/10 hover:bg-purple-500/20
                         transition-colors duration-300"
                       disabled={isLoading}
                     >
-                      <MinusCircle className="w-6 h-6" />
+                      <MinusCircle className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
-                    <span className="text-2xl font-bold w-16 text-center">{mintCount}</span>
-                    <button 
+                    <span className="text-xl sm:text-2xl font-bold w-12 sm:w-16 text-center">{mintCount}</span>
+                    <button
                       onClick={() => setMintCount(Math.min(10, mintCount + 1))}
-                      className="p-2 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 
+                      className="p-1.5 sm:p-2 rounded-lg bg-purple-500/10 hover:bg-purple-500/20
                         transition-colors duration-300"
                       disabled={isLoading}
                     >
-                      <Plus className="w-6 h-6" />
+                      <Plus className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
                   </div>
                 </div>
 
                 {/* Total Price */}
-                <div className="flex justify-between items-center mb-8 p-4 rounded-xl bg-purple-500/10">
-                  <span className="text-gray-400">Total Price:</span>
-                  <span className="text-2xl font-bold">
+                <div className="flex justify-between items-center mb-6 sm:mb-8 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-purple-500/10">
+                  <span className="text-sm sm:text-base text-gray-400">Total Price:</span>
+                  <span className="text-xl sm:text-2xl font-bold">
                     {(0.08 * mintCount).toFixed(2)} AVAX
                   </span>
                 </div>
@@ -424,17 +424,17 @@ const Ticket = () => {
                 <button
                   onClick={handleMint}
                   disabled={!isWalletConnected || isLoading}
-                  className={`w-full group relative px-6 py-4 rounded-xl overflow-hidden 
+                  className={`w-full group relative px-4 sm:px-6 py-3 sm:py-4 rounded-xl overflow-hidden text-sm sm:text-base
                     ${!isWalletConnected || isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 opacity-0 
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 opacity-0
                     group-hover:opacity-50 transition-opacity duration-300" />
                   <div className="relative z-10 flex items-center justify-center space-x-2">
                     {isLoading ? (
-                      <Loader className="w-5 h-5 animate-spin" />
+                      <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                     ) : (
-                      <Sparkles className="w-5 h-5" />
+                      <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
                     )}
                     <span>{isLoading ? 'Purchasing...' : 'Buy Now'}</span>
                   </div>
@@ -442,20 +442,20 @@ const Ticket = () => {
 
                 {/* Error Display */}
                 {error && (
-                  <div className="mt-4 text-red-500 text-center">
-                    <AlertCircle className="w-6 h-6 inline-block mr-2" />
+                  <div className="mt-4 text-red-500 text-center text-xs sm:text-sm">
+                    <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 inline-block mr-1 sm:mr-2" />
                     <span className="align-middle">{error}</span>
                   </div>
                 )}
 
                 {/* Minting Progress */}
-                <div className="mt-6 text-center text-sm text-gray-400">
+                <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-gray-400">
                   <div className="mb-2 flex justify-between">
                     <span>Purchased</span>
                     <span className="font-bold">2,431 / 10,000</span>
                   </div>
-                  <div className="w-full h-2 rounded-full bg-purple-500/20 overflow-hidden">
-                    <div className="w-[24.31%] h-full bg-gradient-to-r from-purple-500 to-blue-500 
+                  <div className="w-full h-1.5 sm:h-2 rounded-full bg-purple-500/20 overflow-hidden">
+                    <div className="w-[24.31%] h-full bg-gradient-to-r from-purple-500 to-blue-500
                       animate-pulse" />
                   </div>
                 </div>
@@ -466,8 +466,8 @@ const Ticket = () => {
       </main>
 
       {/* Collection Stats */}
-      <section className="mt-20 px-6">
-        <div className="max-w-6xl mx-auto grid grid-cols-4 gap-6">
+      <section className="mt-12 sm:mt-16 md:mt-20 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           {[
             { label: "Total Items", value: "10,000" },
             { label: "Owners", value: "1,823" },
@@ -476,24 +476,23 @@ const Ticket = () => {
           ].map((stat, index) => (
             <div
               key={index}
-              className={`bg-gray-900/50 backdrop-blur-xl rounded-xl border border-purple-500/30 p-6 
+              className={`bg-gray-900/50 backdrop-blur-xl rounded-xl border border-purple-500/30 p-4 sm:p-6
                 transform hover:scale-105 transition-all duration-300 cursor-pointer
                 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
               style={{ transitionDelay: `${800 + index * 100}ms` }}
             >
-              <div className="text-gray-400 mb-2">{stat.label}</div>
-              <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 
+              <div className="text-sm sm:text-base text-gray-400 mb-1 sm:mb-2">{stat.label}</div>
+              <div className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-purple-400 to-blue-400
                 bg-clip-text text-transparent">
                 {stat.value}
               </div>
             </div>
           ))}
         </div>
-        
       </section>
     </div>
-    
-    
+
+
   );
 };
 

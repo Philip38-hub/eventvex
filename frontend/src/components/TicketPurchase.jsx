@@ -9,7 +9,7 @@ import {
 
 export default function TicketPurchase() {
   const [quantity, setQuantity] = useState(1);
-  const [pricePerTicket, setPricePerTicket] = useState(1); // Replace with your actual price
+  const [pricePerTicket, setPricePerTicket] = useState(1); // Replace with actual price
   const [walletAddress, setWalletAddress] = useState("");
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState("");
