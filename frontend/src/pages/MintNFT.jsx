@@ -3,7 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import contractABI from "../abi/Ticket.json";
 import { Loader2 } from 'lucide-react';
-
+import {
+  connectWallet,
+  checkWalletConnection,
+  setupWalletListeners,
+  formatWalletAddress
+} from '../utils/walletUtils';
 
 const contractAddress = '0x256ff3b9d3df415a05ba42beb5f186c28e103b2a'; // Replace with your NFT contract address
 
@@ -15,55 +20,38 @@ const MintNFT = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    checkWalletConnection();
-    
-    if (window.ethereum) {
-      window.ethereum.on('accountsChanged', handleAccountsChanged);
-      window.ethereum.on('chainChanged', () => window.location.reload());
-    }
-
-    return () => {
-      if (window.ethereum) {
-        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+    // Check if wallet is already connected
+    const checkConnection = async () => {
+      const address = await checkWalletConnection();
+      if (address) {
+        setWalletAddress(address);
       }
     };
-  }, []);
 
-  const handleAccountsChanged = (accounts) => {
-    if (accounts.length > 0) {
-      setWalletAddress(accounts[0]);
-    } else {
-      setWalletAddress(null);
-    }
-  };
+    checkConnection();
 
-  const checkWalletConnection = async () => {
-    try {
-      if (window.ethereum) {
-        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+    // Setup wallet event listeners
+    const cleanup = setupWalletListeners({
+      onAccountsChanged: (accounts) => {
         if (accounts.length > 0) {
           setWalletAddress(accounts[0]);
+        } else {
+          setWalletAddress(null);
         }
-      }
-    } catch (error) {
-      console.error('Error checking wallet connection:', error);
-    }
-  };
+      },
+      onChainChanged: () => window.location.reload()
+    });
 
-  const connectWallet = async () => {
+    return cleanup;
+  }, []);
+
+  const handleConnectWallet = async () => {
     setError(null);
     setIsLoading(true);
-    
-    try {
-      if (!window.ethereum) {
-        throw new Error('Please install MetaMask to connect your wallet');
-      }
 
-      const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts'
-      });
-      
-      setWalletAddress(accounts[0]);
+    try {
+      const { address } = await connectWallet();
+      setWalletAddress(address);
     } catch (error) {
       setError(error.message || 'Error connecting wallet');
     } finally {
@@ -87,8 +75,8 @@ const MintNFT = () => {
     setMintingStatus('Initializing minting process...');
 
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
+      // Get wallet connection
+      const { signer } = await connectWallet();
       const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
       setMintingStatus('Please confirm the transaction in your wallet...');
@@ -96,7 +84,7 @@ const MintNFT = () => {
 
       setMintingStatus('Transaction submitted. Waiting for confirmation...');
       await transaction.wait();
-      
+
       setMintingStatus('NFT Minted Successfully! 🎉');
       setTokenURI('');
     } catch (error) {
@@ -118,7 +106,7 @@ const MintNFT = () => {
         {!walletAddress ? (
           <div className="text-center mb-8">
             <button
-              onClick={connectWallet}
+              onClick={handleConnectWallet}
               disabled={isLoading}
               className="relative bg-gradient-to-r from-purple-600 to-blue-600 py-3 px-8 rounded-xl
                 hover:opacity-90 transition-all duration-300 disabled:opacity-50"
@@ -134,7 +122,7 @@ const MintNFT = () => {
           <div className="mb-6 text-center">
             <div className="inline-block px-4 py-2 rounded-lg bg-gray-700/50 border border-gray-600">
               <p className="text-sm text-gray-300">Connected Wallet</p>
-              <p className="text-md font-mono">{`${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`}</p>
+              <p className="text-md font-mono">{formatWalletAddress(walletAddress)}</p>
             </div>
           </div>
         )}
@@ -146,7 +134,7 @@ const MintNFT = () => {
           <input
             type="text"
             id="tokenURI"
-            className="w-full p-3 bg-gray-700/50 border border-gray-600 rounded-xl text-white 
+            className="w-full p-3 bg-gray-700/50 border border-gray-600 rounded-xl text-white
               placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
             placeholder="Enter token URI (e.g., ipfs://...)"
             value={tokenURI}

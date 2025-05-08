@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Power } from 'lucide-react';
-import { ethers } from 'ethers';
-
-// Avalanche Network Configuration
-const AVALANCHE_MAINNET_PARAMS = {
-  chainId: '0xA86A',
-  chainName: 'Avalanche Mainnet',
-  nativeCurrency: {
-    name: 'AVAX',
-    symbol: 'AVAX',
-    decimals: 18
-  },
-  rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
-  blockExplorerUrls: ['https://snowtrace.io/']
-};
+import {
+  checkWalletConnection,
+  connectWallet,
+  setupWalletListeners,
+  formatWalletAddress
+} from '../utils/walletUtils';
 
 const Header = () => {
   const [walletAddress, setWalletAddress] = useState(null);
@@ -23,62 +15,40 @@ const Header = () => {
 
   useEffect(() => {
     setIsVisible(true);
-    checkWalletConnection();
-    if (window.ethereum) {
-      window.ethereum.on('accountsChanged', handleAccountsChanged);
-      window.ethereum.on('disconnect', handleDisconnect);
-    }
-    return () => {
-      if (window.ethereum) {
-        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
-        window.ethereum.removeListener('disconnect', handleDisconnect);
+
+    // Check if wallet is already connected
+    const checkConnection = async () => {
+      const address = await checkWalletConnection();
+      if (address) {
+        setWalletAddress(address);
       }
     };
+
+    checkConnection();
+
+    // Setup wallet event listeners
+    const cleanup = setupWalletListeners({
+      onAccountsChanged: (accounts) => {
+        if (accounts.length > 0) {
+          setWalletAddress(accounts[0]);
+        } else {
+          setWalletAddress(null);
+        }
+      },
+      onDisconnect: () => {
+        setWalletAddress(null);
+      }
+    });
+
+    return cleanup;
     // eslint-disable-next-line
   }, []);
 
-  const checkWalletConnection = async () => {
-    if (typeof window.ethereum !== "undefined") {
-      try {
-        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-        if (accounts.length > 0) {
-          setWalletAddress(accounts[0]);
-        }
-      } catch (error) {
-        console.error("Error checking wallet connection:", error);
-      }
-    }
-  };
-
-  const handleAccountsChanged = (accounts) => {
-    if (accounts.length > 0) {
-      setWalletAddress(accounts[0]);
-    } else {
-      setWalletAddress(null);
-    }
-  };
-
-  const handleDisconnect = () => {
-    setWalletAddress(null);
-  };
-
-  const connectWallet = async () => {
-    if (typeof window.ethereum === "undefined") {
-      alert("Please install MetaMask to connect your wallet!");
-      return;
-    }
+  const handleConnectWallet = async () => {
     setIsConnecting(true);
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts'
-      });
-      if (accounts.length > 0) {
-        const signer = await provider.getSigner();
-        const address = await signer.getAddress();
-        setWalletAddress(address);
-        console.log("Connected Address:", address);
-      }
+      const { address } = await connectWallet();
+      setWalletAddress(address);
     } catch (error) {
       console.error("Error connecting to wallet:", error);
     } finally {
@@ -128,8 +98,8 @@ const Header = () => {
                     group-hover:w-full group-hover:left-0 transition-all duration-300" />
                 </Link>
               ))}
-              <button 
-                onClick={walletAddress ? disconnectWallet : connectWallet}
+              <button
+                onClick={walletAddress ? disconnectWallet : handleConnectWallet}
                 disabled={isConnecting}
                 className="group relative px-8 py-4 rounded-xl overflow-hidden"
               >
@@ -141,7 +111,7 @@ const Header = () => {
                     'Connecting...'
                   ) : walletAddress ? (
                     <>
-                      <span>{`${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`}</span>
+                      <span>{formatWalletAddress(walletAddress)}</span>
                       <Power className="w-4 h-4" />
                     </>
                   ) : (

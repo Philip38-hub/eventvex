@@ -6,8 +6,10 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"), // Configure @ as an alias for src
+      "@": path.resolve(__dirname, "./src"),
     },
   },
-
+  optimizeDeps: {
+    include: ['@chakra-ui/react'],
+  },
 });
