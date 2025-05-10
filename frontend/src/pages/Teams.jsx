@@ -14,18 +14,6 @@ const AnimatedTeamSection = () => {
 
   const teamMembers = [
     {
-      name: "John Mokaya",
-      role: "Lead Developer",
-      bio: "Passionate about creating seamless user experiences and solving complex problems.",
-      image: "/src/assets/juni.png",
-      social: {
-        github: "https://github.com/mokayaj857",
-        linkedin: "http://www.linkedin.com/in/john-mokaya-3b926a261",
-        twitter: "http://x.com/BBjuniour",
-        email: "mokayaj@ieee.org"
-      }
-    },
-    {
       name: "Joseph Okumu",
       role: "Full-Stack Developer",
       bio: "Building sustainable solutions using technology.",
@@ -38,15 +26,15 @@ const AnimatedTeamSection = () => {
       }
     },
     {
-      name: "Williams Otieno",
-      role: "Backend Developer",
-      bio: "Driving innovation and ensuring our solutions meet real-world needs.",
-      image: "/src/assets/ser.png",
+      name: "Philip Ochieng",
+      role: "Frontend Developer",
+      bio: "Creating intuitive and visually appealing user interfaces.",
+      image: "/src/assets/philip.jpeg",
       social: {
-        github: "https://github.com/Savville",
-        linkedin: "www.linkedin.com/in/williams-otieno-miee-maces-b358ab33b",
-        twitter: "#",
-        email: "ochiwilliamotieno@gmail.com"
+        github: "https://github.com/Philip38-hub",
+        linkedin: "https://www.linkedin.com/in/philip-ochieng-173213210/",
+        twitter: "https://x.com/oumaphilip01",
+        email: "oumaphilip01@gmail.com"
       }
     }
   ];

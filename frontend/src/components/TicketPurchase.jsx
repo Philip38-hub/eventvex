@@ -1,28 +1,56 @@
-//Initial blocks of Code commented at the bottom
-
-import React, { useState } from "react";
-import { ethers } from "ethers"; // Ensure ethers.js is installed
+import React, { useState, useEffect } from "react";
+import { ethers } from "ethers";
+import {
+  connectWallet,
+  checkWalletConnection,
+  setupWalletListeners,
+  formatWalletAddress
+} from '../utils/walletUtils';
 
 export default function TicketPurchase() {
   const [quantity, setQuantity] = useState(1);
-  const [pricePerTicket, setPricePerTicket] = useState(1); // Replace with your actual price
+  const [pricePerTicket, setPricePerTicket] = useState(1); // Replace with actual price
   const [walletAddress, setWalletAddress] = useState("");
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState("");
 
-  // Connect wallet
-  const connectWallet = async () => {
-    if (window.ethereum) {
-      try {
-        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-        setWalletAddress(accounts[0]);
+  // Check wallet connection on component mount
+  useEffect(() => {
+    const checkConnection = async () => {
+      const address = await checkWalletConnection();
+      if (address) {
+        setWalletAddress(address);
         setIsConnected(true);
-        setError("");
-      } catch (err) {
-        setError("Failed to connect wallet");
       }
-    } else {
-      setError("Please install a compatible wallet like MetaMask.");
+    };
+
+    checkConnection();
+
+    // Setup wallet event listeners
+    const cleanup = setupWalletListeners({
+      onAccountsChanged: (accounts) => {
+        if (accounts.length > 0) {
+          setWalletAddress(accounts[0]);
+          setIsConnected(true);
+        } else {
+          setWalletAddress("");
+          setIsConnected(false);
+        }
+      }
+    });
+
+    return cleanup;
+  }, []);
+
+  // Connect wallet
+  const handleConnectWallet = async () => {
+    try {
+      const { address } = await connectWallet();
+      setWalletAddress(address);
+      setIsConnected(true);
+      setError("");
+    } catch (err) {
+      setError("Failed to connect wallet: " + err.message);
     }
   };
 
@@ -38,11 +66,11 @@ export default function TicketPurchase() {
       return;
     }
 
-    const totalCost = ethers.utils.parseEther((quantity * pricePerTicket).toString());
+    const totalCost = ethers.parseEther((quantity * pricePerTicket).toString());
 
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
+      // Get wallet connection
+      const { signer } = await connectWallet();
 
       const tx = await signer.sendTransaction({
         to: "0x256ff3b9d3df415a05ba42beb5f186c28e103b2a", // Replace with your smart contract address
@@ -62,9 +90,9 @@ export default function TicketPurchase() {
       <h1>Ticket Purchase</h1>
 
       {!isConnected ? (
-        <button onClick={connectWallet}>Connect Wallet</button>
+        <button onClick={handleConnectWallet}>Connect Wallet</button>
       ) : (
-        <p>Connected Wallet: {walletAddress}</p>
+        <p>Connected Wallet: {formatWalletAddress(walletAddress)}</p>
       )}
 
       <label>
@@ -89,28 +117,5 @@ export default function TicketPurchase() {
 
 
 
-/***import React, { useState } from "react";
 
-export default function TicketPurchase() {
-  const [quantity, setQuantity] = useState(1);
-
-  const handleQuantityChange = (event) => {
-    setQuantity(event.target.value);
-  };
-
-  const handlePurchase = () => {
-    alert(`Purchasing ${quantity} tickets`);
-  };
-
-  return (
-    <div className="ticket-purchase">
-      <h1>Ticket Purchase</h1>
-      <label>
-        Quantity:
-        <input type="number" value={quantity} onChange={handleQuantityChange} min="1" />
-      </label>
-      <button onClick={handlePurchase}>Complete Purchase</button>
-    </div>
-  );
-} ***/
 
