@@ -13,6 +13,34 @@ export const AVALANCHE_MAINNET_PARAMS = {
   blockExplorerUrls: ['https://snowtrace.io/']
 };
 
+// Base Network Configuration
+export const BASE_MAINNET_PARAMS = {
+  chainId: '0x2105', // 8453 in decimal
+  chainName: 'Base Mainnet',
+  nativeCurrency: {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    decimals: 18
+  },
+  rpcUrls: ['https://mainnet.base.org'],
+  blockExplorerUrls: ['https://basescan.org']
+};
+
+export const BASE_SEPOLIA_PARAMS = {
+  chainId: '0x14A34', // 84532 in decimal
+  chainName: 'Base Sepolia Testnet',
+  nativeCurrency: {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    decimals: 18
+  },
+  rpcUrls: ['https://sepolia.base.org'],
+  blockExplorerUrls: ['https://sepolia.basescan.org']
+};
+
+// Default network to use
+export const DEFAULT_NETWORK_PARAMS = BASE_SEPOLIA_PARAMS;
+
 /**
  * Check if MetaMask or other Ethereum provider is installed
  * @returns {boolean} True if provider is available
@@ -44,9 +72,10 @@ export const checkWalletConnection = async () => {
 
 /**
  * Connect to wallet
+ * @param {Object} networkParams - Network parameters to use (optional)
  * @returns {Promise<{address: string, provider: ethers.BrowserProvider, signer: ethers.Signer}|null>} Wallet info or null if failed
  */
-export const connectWallet = async () => {
+export const connectWallet = async (networkParams = DEFAULT_NETWORK_PARAMS) => {
   if (!isWalletAvailable()) {
     throw new Error("Please install MetaMask or another Ethereum-compatible wallet to connect.");
   }
@@ -54,6 +83,14 @@ export const connectWallet = async () => {
   try {
     // Request account access from MetaMask
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    
+    // Try to switch to the desired network
+    try {
+      await switchNetwork(networkParams);
+    } catch (error) {
+      console.warn("Failed to switch network during connect:", error);
+      // Continue with connection even if network switch fails
+    }
     
     // Create an ethers provider
     const provider = new ethers.BrowserProvider(window.ethereum);
@@ -123,11 +160,63 @@ export const formatWalletAddress = (address, prefixLength = 6, suffixLength = 4)
 };
 
 /**
+ * Get the current network the wallet is connected to
+ * @returns {Promise<{chainId: string, name: string}>} Current network info
+ */
+export const getCurrentNetwork = async () => {
+  if (!isWalletAvailable()) {
+    throw new Error("Please install MetaMask or another Ethereum-compatible wallet.");
+  }
+  
+  try {
+    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    
+    // Check if it's one of our known networks
+    if (chainId === BASE_MAINNET_PARAMS.chainId) {
+      return { chainId, name: BASE_MAINNET_PARAMS.chainName };
+    } else if (chainId === BASE_SEPOLIA_PARAMS.chainId) {
+      return { chainId, name: BASE_SEPOLIA_PARAMS.chainName };
+    } else if (chainId === AVALANCHE_MAINNET_PARAMS.chainId) {
+      return { chainId, name: AVALANCHE_MAINNET_PARAMS.chainName };
+    } else {
+      return { chainId, name: 'Unknown Network' };
+    }
+  } catch (error) {
+    console.error("Error getting current network:", error);
+    throw error;
+  }
+};
+
+/**
+ * Switch to Base Mainnet
+ * @returns {Promise<boolean>} Success status
+ */
+export const switchToBase = async () => {
+  return switchNetwork(BASE_MAINNET_PARAMS);
+};
+
+/**
+ * Switch to Base Sepolia Testnet
+ * @returns {Promise<boolean>} Success status
+ */
+export const switchToBaseSepolia = async () => {
+  return switchNetwork(BASE_SEPOLIA_PARAMS);
+};
+
+/**
+ * Switch to Avalanche Mainnet
+ * @returns {Promise<boolean>} Success status
+ */
+export const switchToAvalanche = async () => {
+  return switchNetwork(AVALANCHE_MAINNET_PARAMS);
+};
+
+/**
  * Switch to a specific network
  * @param {Object} networkParams - Network parameters
  * @returns {Promise<boolean>} Success status
  */
-export const switchNetwork = async (networkParams = AVALANCHE_MAINNET_PARAMS) => {
+export const switchNetwork = async (networkParams = DEFAULT_NETWORK_PARAMS) => {
   if (!isWalletAvailable()) {
     throw new Error("Please install MetaMask or another Ethereum-compatible wallet.");
   }
