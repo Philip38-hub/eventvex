@@ -1,33 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { Wallet, ImageIcon, Sparkles, ChevronRight, Plus, MinusCircle, Loader, AlertCircle } from 'lucide-react';
+import { 
+  BASE_MAINNET_PARAMS, 
+  BASE_SEPOLIA_PARAMS, 
+  AVALANCHE_MAINNET_PARAMS,
+  switchNetwork,
+  getCurrentNetwork
+} from '../utils/walletUtils';
 
-const AVALANCHE_MAINNET_PARAMS = {
-  chainId: '0xA86A',
-  chainName: 'Avalanche Mainnet C-Chain',
-  nativeCurrency: {
-    name: 'Avalanche',
-    symbol: 'AVAX',
-    decimals: 18
-  },
-  rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
-  blockExplorerUrls: ['https://snowtrace.io/']
-};
-
-const AVALANCHE_TESTNET_PARAMS = {
-  chainId: '0xA869',
-  chainName: 'Avalanche Testnet C-Chain',
-  nativeCurrency: {
-    name: 'Avalanche',
-    symbol: 'AVAX',
-    decimals: 18
-  },
-  rpcUrls: ['https://api.avax-test.network/ext/bc/C/rpc'],
-  blockExplorerUrls: ['https://testnet.snowtrace.io/']
-};
-
-// Choose the appropriate network (mainnet or testnet)
-const NETWORK_PARAMS = AVALANCHE_MAINNET_PARAMS;
+// Choose the appropriate network (Base Mainnet as default)
+const NETWORK_PARAMS = BASE_MAINNET_PARAMS;
 
 // Replace with your actual contract address and ABI
 const CONTRACT_ADDRESS = "0x256ff3b9d3df415a05ba42beb5f186c28e103b2a";
@@ -56,7 +39,7 @@ const Ticket = () => {
   const [maxSupply, setMaxSupply] = useState(10000);
   const [userBalance, setUserBalance] = useState(0);
 
-  const PRICE_PER_NFT = 0.08; // AVAX
+  const PRICE_PER_NFT = 0.005; // ETH for Base network
 
   const previewImages = [
     "/src/assets/summit.png",
@@ -155,36 +138,17 @@ const Ticket = () => {
       setIsLoading(true);
       setError(null);
 
-      // Request account access
+      // Request account access and switch to desired network using the imported function
+      try {
+        await switchNetwork(NETWORK_PARAMS);
+      } catch (switchError) {
+        console.warn("Network switch error:", switchError);
+        // Continue connecting even if network switch fails
+      }
+
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts'
       });
-
-      // Check if we're on the correct network
-      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-      if (chainId !== NETWORK_PARAMS.chainId) {
-        try {
-          // Try to switch to the Avalanche network
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: NETWORK_PARAMS.chainId }],
-          });
-        } catch (switchError) {
-          // This error code indicates that the chain has not been added to MetaMask.
-          if (switchError.code === 4902) {
-            try {
-              await window.ethereum.request({
-                method: 'wallet_addEthereumChain',
-                params: [NETWORK_PARAMS],
-              });
-            } catch (addError) {
-              throw new Error("Failed to add Avalanche network to MetaMask");
-            }
-          } else {
-            throw switchError;
-          }
-        }
-      }
 
       if (accounts.length > 0) {
         setWalletAddress(accounts[0]);
@@ -344,7 +308,7 @@ const Ticket = () => {
                   <h2 className="text-xl sm:text-2xl font-bold mb-2">Purchase Your Ticket</h2>
                   <div className="flex items-baseline space-x-2">
                     <span className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400
-                      bg-clip-text text-transparent">{PRICE_PER_NFT} AVAX</span>
+                      bg-clip-text text-transparent">{PRICE_PER_NFT} ETH</span>
                     <span className="text-sm sm:text-base text-gray-400">per ticket</span>
                   </div>
                 </div>
