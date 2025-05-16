@@ -28,7 +28,7 @@ const TokenizedTicketing = () => {
       id: 1,
       name: "Blockchain Summit 2025",
       date: "March 15, 2025",
-      price: "0.5 AVAX",
+      price: "0.5 ETH",
       available: 150,
       total: 500,
       image: "/src/assets/summit.png"
@@ -37,7 +37,7 @@ const TokenizedTicketing = () => {
       id: 2,
       name: "Web3 Music Festival",
       date: "April 20, 2025",
-      price: "1.2 AVAX",
+      price: "1.2 ETH",
       available: 75,
       total: 1000,
       image: "/src/assets/dr.png"
@@ -46,7 +46,7 @@ const TokenizedTicketing = () => {
       id: 3,
       name: "NFT Art Exhibition",
       date: "May 5, 2025",
-      price: "0.8 AVAX",
+      price: "0.8 ETH",
       available: 200,
       total: 300,
       image: "/src/assets/im.png",

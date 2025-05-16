@@ -22,7 +22,7 @@ export interface Transaction {
  * List a ticket for resale
  * @param contract The ticket contract
  * @param tokenId The token ID to list
- * @param price The price in AVAX
+ * @param price The price in ETH
  */
 export const listTicketForResale = async (contract: ethers.Contract, tokenId: number, price: number): Promise<void> => {
   const priceInWei = ethers.parseEther(price.toString());

@@ -105,8 +105,8 @@ export default function TicketPurchase() {
         />
       </label>
 
-      <p>Price per Ticket: {pricePerTicket} AVAX</p>
-      <p>Total Cost: {quantity * pricePerTicket} AVAX</p>
+      <p>Price per Ticket: {pricePerTicket} ETH</p>
+      <p>Total Cost: {quantity * pricePerTicket} ETH</p>
 
       <button onClick={handlePurchase}>Complete Purchase</button>
 

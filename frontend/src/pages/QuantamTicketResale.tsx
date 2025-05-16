@@ -270,16 +270,37 @@ const QuantumTicketResale = () => {
       const signer = await provider.getSigner()
       const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer)
 
-      const tx = await contract.buyResaleTicket(tokenId, { value: price })
-      await tx.wait()
+      // Ensure the tokenId is properly formatted (as a number or BigInt)
+      // Convert string tokenId to a BigInt
+      const tokenIdBigInt = BigInt(tokenId)
+      
+      // Debug log to check values before transaction
+      console.log("Buying ticket:", { tokenId: tokenIdBigInt, price, formattedPrice: ethers.formatEther(price) })
+      
+      // Send the transaction properly, with value included in transaction options
+      const tx = await contract.buyResaleTicket(tokenIdBigInt, { value: price })
+      
+      console.log("Transaction sent:", tx)
+      const receipt = await tx.wait()
+      console.log("Transaction receipt:", receipt)
 
       await updateUserTickets()
       await updateResaleListings()
 
       alert("Resale ticket purchased successfully!")
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error buying resale ticket:", error)
-      setError((error as Error).message || "Failed to buy resale ticket. Please try again.")
+      
+      // More descriptive error message for users
+      if (error.code === 'CALL_EXCEPTION') {
+        setError("Transaction failed. This could be because the ticket is no longer for sale, price has changed, or you may not have enough funds.")
+      } else if (error.code === 'INSUFFICIENT_FUNDS') {
+        setError("Your wallet does not have enough funds to complete this purchase.")
+      } else if (error.code === 'USER_REJECTED') {
+        setError("You rejected the transaction.")
+      } else {
+        setError(error.message || "Failed to buy resale ticket. Please try again.")
+      }
     } finally {
       setIsLoading(false)
     }
@@ -411,7 +432,7 @@ const QuantumTicketResale = () => {
                 {selectedTicket && (
                   <div className="grid gap-2">
                     <label htmlFor="resalePrice" className="text-sm text-gray-400">
-                      Resale Price (AVAX)
+                      Resale Price (ETH)
                     </label>
                     <input
                       id="resalePrice"
@@ -492,7 +513,7 @@ const QuantumTicketResale = () => {
                             <p className="text-sm text-gray-300">Ticket #{listing.tokenId}</p>
                           </div>
                           <div className="px-3 py-1 bg-purple-600/30 rounded-full text-purple-300 text-sm font-medium">
-                            {ethers.formatEther(listing.price)} AVAX
+                            {ethers.formatEther(listing.price)} ETH
                           </div>
                         </div>
                         

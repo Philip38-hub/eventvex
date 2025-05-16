@@ -14,11 +14,11 @@ const AVALANCHE_MAINNET_PARAMS = {
   chainId: '0xA86A', // Hex chain ID for Avalanche Mainnet
   chainName: 'Avalanche Mainnet',
   nativeCurrency: {
-    name: 'AVAX',
-    symbol: 'AVAX',
+    name: 'ETH',
+    symbol: 'ETH',
     decimals: 18
   },
-  rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+  rpcUrls: ['https://api.ETH.network/ext/bc/C/rpc'],
   blockExplorerUrls: ['https://snowtrace.io/']
 };
 

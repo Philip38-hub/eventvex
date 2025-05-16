@@ -380,7 +380,7 @@ const Ticket = () => {
                 <div className="flex justify-between items-center mb-6 sm:mb-8 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-purple-500/10">
                   <span className="text-sm sm:text-base text-gray-400">Total Price:</span>
                   <span className="text-xl sm:text-2xl font-bold">
-                    {(0.08 * mintCount).toFixed(2)} AVAX
+                    {(0.08 * mintCount).toFixed(2)} ETH
                   </span>
                 </div>
 
@@ -435,8 +435,8 @@ const Ticket = () => {
           {[
             { label: "Total Items", value: "10,000" },
             { label: "Owners", value: "1,823" },
-            { label: "Floor Price", value: "0.08 AVAX" },
-            { label: "Volume Traded", value: "1,205 AVAX" }
+            { label: "Floor Price", value: "0.08 ETH" },
+            { label: "Volume Traded", value: "1,205 ETH" }
           ].map((stat, index) => (
             <div
               key={index}

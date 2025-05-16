@@ -49,7 +49,7 @@ const QRVerificationSystem = () => {
       event: 'Blockchain Summit 2025',
       date: '2025-03-15',
       venue: 'Tech Center',
-      price: '0.5 AVAX',
+      price: '0.5 ETH',
       txHash: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
     },
     {
@@ -57,7 +57,7 @@ const QRVerificationSystem = () => {
       event: 'Web3 Conference',
       date: '2025-04-01',
       venue: 'Innovation Hub',
-      price: '0.8 AVAX',
+      price: '0.8 ETH',
       txHash: '0x912d35Cc6634C0532925a3b844Bc454e4438f123'
     }
   ];
@@ -73,11 +73,11 @@ const QRVerificationSystem = () => {
       chainId: avalancheChainId,
       chainName: 'Avalanche Network',
       nativeCurrency: {
-        name: 'AVAX',
-        symbol: 'AVAX',
+        name: 'ETH',
+        symbol: 'ETH',
         decimals: 18
       },
-      rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+      rpcUrls: ['https://api.ETH.network/ext/bc/C/rpc'],
       blockExplorerUrls: ['https://snowtrace.io/']
     };
 
