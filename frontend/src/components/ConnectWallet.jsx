@@ -6,14 +6,14 @@ import {
   setupWalletListeners,
   formatWalletAddress,
   switchNetwork,
-  AVALANCHE_MAINNET_PARAMS
+  BASE_MAINNET_PARAMS
 } from '../utils/walletUtils';
 
 export default function ConnectWalletButton() {
   const [walletAddress, setWalletAddress] = useState(null);
   const [isConnecting, setIsConnecting] = useState(false);
   const [networkId, setNetworkId] = useState(null);
-  const EXPECTED_CHAIN_ID = 43114; // Avalanche Mainnet
+  const EXPECTED_CHAIN_ID = 8453; // Base Mainnet
 
   // Function to connect the wallet
   const handleConnectWallet = async () => {
@@ -26,8 +26,8 @@ export default function ConnectWalletButton() {
       // Validate the network
       const network = await provider.getNetwork();
       if (network.chainId !== EXPECTED_CHAIN_ID) {
-        toast.warn('Switching to Avalanche Mainnet...');
-        await switchNetwork(AVALANCHE_MAINNET_PARAMS);
+        toast.warn('Switching to Base Mainnet...');
+        await switchNetwork(BASE_MAINNET_PARAMS);
       }
 
       // Set wallet address and network state
@@ -78,7 +78,7 @@ export default function ConnectWalletButton() {
         setNetworkId(numericChainId);
 
         if (numericChainId !== EXPECTED_CHAIN_ID) {
-          toast.warn('You are on the wrong network. Please switch to the Avalanche Mainnet.');
+          toast.warn('You are on the wrong network. Please switch to the Base Mainnet.');
         }
       }
     });

@@ -9,29 +9,29 @@ import Teams from './Teams';
 import { ethers } from 'ethers';
 import { Link } from 'react-router-dom';
 
-// Avalanche Network Configuration
-const AVALANCHE_MAINNET_PARAMS = {
-  chainId: '0xA86A', // Hex chain ID for Avalanche Mainnet
-  chainName: 'Avalanche Mainnet',
+// Base Network Configuration
+const BASE_MAINNET_PARAMS = {
+  chainId: '0x2105', // Hex chain ID for Base Mainnet
+  chainName: 'Base Mainnet',
   nativeCurrency: {
     name: 'ETH',
     symbol: 'ETH',
     decimals: 18
   },
-  rpcUrls: ['https://api.ETH.network/ext/bc/C/rpc'],
-  blockExplorerUrls: ['https://snowtrace.io/']
+  rpcUrls: ['https://mainnet.base.org'],
+  blockExplorerUrls: ['https://basescan.org/']
 };
 
-const addAvalancheNetwork = async () => {
+const addBaseNetwork = async () => {
   if (typeof window.ethereum !== "undefined") {
       try {
           await window.ethereum.request({
               method: "wallet_addEthereumChain",
-              params: [AVALANCHE_MAINNET_PARAMS],
+              params: [BASE_MAINNET_PARAMS],
           });
-          console.log("Avalanche network added successfully!");
+          console.log("Base network added successfully!");
       } catch (error) {
-          console.error("Error adding Avalanche network:", error);
+          console.error("Error adding Base network:", error);
       }
   } else {
       console.error("MetaMask is not installed.");
@@ -120,19 +120,19 @@ const UltimateEventPlatform = () => {
     {
       icon: <Ticket className="w-8 h-8" />,
       title: "Quantum Ticketing",
-      description: "Next-gen blockchain verification with quantum security In less than 2 seconds only on Avalance ",
+      description: "Next-gen blockchain verification with quantum security in less than 2 seconds only on Base",
       color: "from-purple-600 to-blue-600"
     },
     {
       icon: <Globe className="w-8 h-8" />,
       title: "Maximizing Saving on Events",
-      description: "Leveraging Avalanche's Low Fees for More Affordable Event Ticketing",
+      description: "Leveraging Base's Low Fees for More Affordable Event Ticketing",
       color: "from-blue-600 to-purple-600"
     },
     {
       icon: <Activity className="w-8 h-8" />,
       title: "Your Tickets, Your Security",
-      description: "Safeguard Your Tickets with Avalanche’s Trusted Blockchain Technology",
+      description: "Safeguard Your Tickets with Base's Trusted Blockchain Technology",
       color: "from-purple-600 to-pink-600"
     }
   ];

@@ -4,7 +4,6 @@ import { Wallet, ImageIcon, Sparkles, ChevronRight, Plus, MinusCircle, Loader, A
 import { 
   BASE_MAINNET_PARAMS, 
   BASE_SEPOLIA_PARAMS, 
-  AVALANCHE_MAINNET_PARAMS,
   switchNetwork,
   getCurrentNetwork
 } from '../utils/walletUtils';

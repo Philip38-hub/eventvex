@@ -1,17 +1,6 @@
 import { ethers } from 'ethers';
 
-// Avalanche Network Configuration
-export const AVALANCHE_MAINNET_PARAMS = {
-  chainId: '0xA86A',
-  chainName: 'Avalanche Mainnet',
-  nativeCurrency: {
-    name: 'ETH',
-    symbol: 'ETH',
-    decimals: 18
-  },
-  rpcUrls: ['https://api.ETH.network/ext/bc/C/rpc'],
-  blockExplorerUrls: ['https://snowtrace.io/']
-};
+// Base Network Configuration (Removed Avalanche)
 
 // Base Network Configuration
 export const BASE_MAINNET_PARAMS = {
@@ -176,8 +165,6 @@ export const getCurrentNetwork = async () => {
       return { chainId, name: BASE_MAINNET_PARAMS.chainName };
     } else if (chainId === BASE_SEPOLIA_PARAMS.chainId) {
       return { chainId, name: BASE_SEPOLIA_PARAMS.chainName };
-    } else if (chainId === AVALANCHE_MAINNET_PARAMS.chainId) {
-      return { chainId, name: AVALANCHE_MAINNET_PARAMS.chainName };
     } else {
       return { chainId, name: 'Unknown Network' };
     }
@@ -203,13 +190,7 @@ export const switchToBaseSepolia = async () => {
   return switchNetwork(BASE_SEPOLIA_PARAMS);
 };
 
-/**
- * Switch to Avalanche Mainnet
- * @returns {Promise<boolean>} Success status
- */
-export const switchToAvalanche = async () => {
-  return switchNetwork(AVALANCHE_MAINNET_PARAMS);
-};
+
 
 /**
  * Switch to a specific network

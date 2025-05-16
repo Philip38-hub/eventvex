@@ -62,7 +62,7 @@ const TokenizedTicketing = () => {
         <div className="max-w-7xl mx-auto mb-8 sm:mb-12 md:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-purple-400 to-blue-400
             bg-clip-text text-transparent text-center sm:text-left">
-            Tokenized Ticketing on Avalanche
+            Tokenized Ticketing on Base
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-gray-400 text-center sm:text-left">Secure, transparent, and efficient event ticketing powered by blockchain</p>
         </div>
@@ -72,12 +72,12 @@ const TokenizedTicketing = () => {
             {
               icon: <Shield />,
               title: "Secure Tokenization",
-              description: "Event tickets are minted as unique tokens on Avalanche blockchain"
+              description: "Event tickets are minted as unique tokens on Base blockchain"
             },
             {
               icon: <RefreshCw />,
               title: "Instant Transfers",
-              description: "Fast and secure transactions with Avalanche C-Chain"
+              description: "Fast and secure transactions with Base network"
             },
             {
               icon: <BarChart />,

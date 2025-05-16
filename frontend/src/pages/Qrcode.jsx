@@ -27,7 +27,7 @@ const MINIMAL_ABI = [
   }
 ];
 
-// Avalanche Mainnet Contract Address
+// Base Mainnet Contract Address
 const CONTRACT_ADDRESS = '0x256ff3b9d3df415a05ba42beb5f186c28e103b2a';
 
 const QRVerificationSystem = () => {
@@ -63,38 +63,38 @@ const QRVerificationSystem = () => {
   ];
 
   // Network Switching Utility
-  const switchToAvalancheNetwork = async () => {
+  const switchToBaseNetwork = async () => {
     if (!window.ethereum) {
       throw new Error('MetaMask is not installed');
     }
 
-    const avalancheChainId = '0xA86A';
-    const avalancheParams = {
-      chainId: avalancheChainId,
-      chainName: 'Avalanche Network',
+    const baseChainId = '0x2105';
+    const baseParams = {
+      chainId: baseChainId,
+      chainName: 'Base Network',
       nativeCurrency: {
         name: 'ETH',
         symbol: 'ETH',
         decimals: 18
       },
-      rpcUrls: ['https://api.ETH.network/ext/bc/C/rpc'],
-      blockExplorerUrls: ['https://snowtrace.io/']
+      rpcUrls: ['https://mainnet.base.org'],
+      blockExplorerUrls: ['https://basescan.org/']
     };
 
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: avalancheChainId }]
+        params: [{ chainId: baseChainId }]
       });
     } catch (switchError) {
       if (switchError.code === 4902) {
         try {
           await window.ethereum.request({
             method: 'wallet_addEthereumChain',
-            params: [avalancheParams]
+            params: [baseParams]
           });
         } catch (addError) {
-          console.error('Error adding Avalanche network', addError);
+          console.error('Error adding Base network', addError);
           throw addError;
         }
       } else {
@@ -166,14 +166,14 @@ const QRVerificationSystem = () => {
         throw new Error('MetaMask is not installed');
       }
 
-      await switchToAvalancheNetwork();
+      await switchToBaseNetwork();
 
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       
       const network = await provider.getNetwork();
-      if (network.chainId !== 43114n) {
-        throw new Error('Not connected to Avalanche C-Chain');
+      if (network.chainId !== 8453n) {
+        throw new Error('Not connected to Base network');
       }
 
       const ticketContract = new ethers.Contract(
@@ -240,7 +240,7 @@ const QRVerificationSystem = () => {
       setIsVerifying(true);
       setError(null);
 
-      await switchToAvalancheNetwork();
+      await switchToBaseNetwork();
 
       const tx = await contract.verifyTicket(selectedTicket.id);
       const receipt = await tx.wait();
@@ -296,10 +296,10 @@ const QRVerificationSystem = () => {
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-400 
             bg-clip-text text-transparent">
-            Avalanche Ticket Verification
+            Base Ticket Verification
           </h1>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            Secure ticket verification powered by Avalanche blockchain technology. 
+            Secure ticket verification powered by Base blockchain technology. 
             Generate and verify QR codes for your event tickets instantly.
           </p>
         </div>
@@ -372,7 +372,7 @@ const QRVerificationSystem = () => {
                 {isVerifying ? (
                   <div className="animate-pulse">
                     <RefreshCw className="w-16 h-16 mx-auto mb-4 text-purple-400 animate-spin" />
-                    <p>Verifying on Avalanche Network...</p>
+                    <p>Verifying on Base Network...</p>
                   </div>
                 ) : verificationStatus === 'success' ? (
                   <div className="text-green-400">
@@ -401,7 +401,7 @@ const QRVerificationSystem = () => {
                         : 'bg-gray-600 cursor-not-allowed'}`}
                   >
                     <Shield className="w-5 h-5" />
-                    <span>Verify on Avalanche</span>
+                    <span>Verify on Base</span>
                   </button>
                 )}
               </div>
