@@ -47,13 +47,6 @@ Eventverse is a revolutionary blockchain-based ticketing platform engineered to 
 ![Base](https://img.shields.io/badge/Base-0052FF?style=for-the-badge&logo=base&logoColor=white)
 ![Web3.js](https://img.shields.io/badge/Web3.js-F16822?style=for-the-badge&logo=web3.js&logoColor=white)
 
-### Development Tools
-![Hardhat](https://img.shields.io/badge/Hardhat-FFF100?style=for-the-badge&logo=hardhat&logoColor=black)
-![OpenZeppelin](https://img.shields.io/badge/OpenZeppelin-4E5EE4?style=for-the-badge&logo=OpenZeppelin&logoColor=white)
-![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
-
-
-
 
 ## 🚀 Getting Started
 
@@ -76,31 +69,10 @@ Eventverse is a revolutionary blockchain-based ticketing platform engineered to 
 2. **Clone the repository:**
 
    ```bash
-   git clone [repository-url]
+   git clone https://github.com/Philip38-hub/eventvex.git
    ```
 
-2. **Install dependencies:**
-
-   ```bash
-   npm install
-   ```
-
-3. **Compile smart contracts:**
-
-   ```bash
-   npx hardhat compile
-   ```
-
-4. **Configure Base network:**
-   Edit `hardhat.config.js` to include Base network details under the `networks` section.
-
-5. **Deploy contracts:**
-
-   ```bash
-   npx hardhat run scripts/deploy.js --network base
-   ```
-
-6. **Run the application locally:**
+3. **Run the application locally:**
 
    ```bash
    # First, install and run the backend server
@@ -113,8 +85,10 @@ Eventverse is a revolutionary blockchain-based ticketing platform engineered to 
    npm install
    npm run dev
    ```
-
-> 💡 Don't forget to update your contract address in the configuration files!
+4. **Access app through**
+   ```bash
+   http://localhost:5173/
+   ```
 
 ## 👥 The Team
 
@@ -164,17 +138,7 @@ Eventverse is a revolutionary blockchain-based ticketing platform engineered to 
    - Minimal transaction fees
    - Economical for both users and operators
 
-### 🔗 Deployment Strategy
-
-- Our smart contracts are deployed on Base to facilitate secure ticket operations.
-- Robust deployment pipeline via Hardhat ensures reliability.
-
 ## 🔮 Vision
 
 Eventverse is redefining event ticketing by combining blockchain security with intuitive user experiences. Stay tuned for exciting updates and new features as we shape the future of event access!
-
-## 📊 Project Status
-![Development Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Build Status](https://img.shields.io/badge/Build-Passing-success?style=for-the-badge)
-![Test Coverage](https://img.shields.io/badge/Coverage-85%25-green?style=for-the-badge)
 

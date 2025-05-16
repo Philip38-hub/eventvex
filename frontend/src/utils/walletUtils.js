@@ -1,7 +1,5 @@
 import { ethers } from 'ethers';
 
-// Base Network Configuration (Removed Avalanche)
-
 // Base Network Configuration
 export const BASE_MAINNET_PARAMS = {
   chainId: '0x2105', // 8453 in decimal
