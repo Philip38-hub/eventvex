@@ -193,7 +193,7 @@ const UltimateEventPlatform = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-hidden">
+    <div className="min-h-screen bg-primary text-primary overflow-hidden">
       <ParticleField />
 
       {/* Dynamic Cursor Effect */}
@@ -207,11 +207,12 @@ const UltimateEventPlatform = () => {
       </div>
 
       {/* Hero Section */}
-      <main className="relative pt-20 md:pt-32 pb-12 md:pb-20 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-          <div className={`transition-all duration-1000 delay-300
-            ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'}`}>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 md:mb-8 leading-tight">
+      <main className="relative pt-16 pb-12 sm:pt-20 md:pt-28 lg:pt-32 px-4 sm:px-6 max-w-8xl mx-auto bg-primary">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className={`text-center lg:text-left transition-all duration-1000 delay-300 ${
+            isVisible ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'
+          }`}>
+            <h1 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
               <div className="overflow-hidden">
                 <span className="inline-block animate-slide-up-fade">Experience</span>
               </div>
@@ -226,38 +227,39 @@ const UltimateEventPlatform = () => {
               </div>
             </h1>
 
-            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 md:mb-10 opacity-0 animate-fade-in delay-700">
+            <p className="text-base sm:text-lg md:text-xl text-secondary mb-8 sm:mb-10 opacity-0 animate-fade-in delay-700 px-2 sm:px-0">
               Step into a world where events transcend reality. Experience seamless ticketing,
               immersive venues, and next-generation event management.
             </p>
 
-            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
-              <a href="/ticketsell" className="w-full sm:w-auto">
-                <button className="w-full sm:w-auto group relative px-6 sm:px-8 py-3 sm:py-4 rounded-xl overflow-hidden">
+            <div className="flex flex-col xs:flex-row justify-center lg:justify-start gap-4 sm:gap-6">
+              <a href="/ticketsell" className="w-full xs:w-auto">
+                <button className="w-full group relative px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.03]">
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600" />
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 blur-xl
                     group-hover:blur-2xl transition-all duration-300" />
-                  <div className="relative z-10 flex items-center justify-center sm:justify-start space-x-2">
+                  <div className="relative z-10 flex items-center justify-center gap-2 font-medium">
                     <span>Explore Events</span>
                     <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </button>
               </a>
 
-              <a href="/qrcode" className="w-full sm:w-auto">
-                <button className="w-full sm:w-auto group relative px-6 sm:px-8 py-3 sm:py-4 rounded-xl overflow-hidden">
-                  <div className="absolute inset-0 border border-purple-500 rounded-xl" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10
+              <a href="/qrcode" className="w-full xs:w-auto">
+                <button className="w-full group relative px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl overflow-hidden hover:scale-[1.03] transition-all duration-300">
+                  <div className="absolute inset-0 border border-purple-500/50 rounded-xl group-hover:border-purple-400/70 transition-colors" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-blue-500/5
                     transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-                  <span className="relative z-10">Tickets Collection</span>
+                  <span className="relative z-10 font-medium">Tickets Collection</span>
                 </button>
               </a>
             </div>
           </div>
 
-          <div className={`mt-10 md:mt-0 relative transition-all duration-1000 delay-500
-            ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}`}>
-            <div className="relative w-full aspect-square group">
+          <div className={`mt-8 sm:mt-12 lg:mt-0 relative transition-all duration-1000 delay-500 ${
+            isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+          }`}>
+            <div className="relative w-full max-w-2xl mx-auto aspect-square group">
               {[...Array(3)].map((_, i) => (
                 <div
                   key={i}
@@ -273,7 +275,8 @@ const UltimateEventPlatform = () => {
                 src={bitcoinImage}
                 alt="VR Experience"
                 className="relative z-10 w-full h-auto object-cover rounded-3xl transform
-                  group-hover:scale-105 group-hover:rotate-3 transition-all duration-700"
+                  group-hover:scale-[1.02] group-hover:rotate-1 transition-all duration-700"
+                loading="eager"
               />
             </div>
           </div>

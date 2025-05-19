@@ -20,6 +20,21 @@ import WaitlistPage from './pages/WaitingList';
 import QuantumTicketResale from './pages/QuantamTicketResale';
 import CreateEvent from './pages/CreateEvent';
 
+// Initialize theme before rendering the app
+const savedTheme = localStorage.getItem('theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+  document.documentElement.classList.add('dark');
+} else {
+  document.documentElement.classList.remove('dark');
+}
+
+// Add transition after initial render to prevent flash of unstyled content
+setTimeout(() => {
+  document.documentElement.classList.add('transition-theme');
+}, 0);
+
 const router = createBrowserRouter([
   {
     path: "/",

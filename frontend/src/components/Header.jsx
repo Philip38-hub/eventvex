@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Power, Menu, X } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 import {
   checkWalletConnection,
   connectWallet,
@@ -78,19 +79,23 @@ const Header = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/10 to-blue-900/10 backdrop-blur-xl" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center space-x-3 group cursor-pointer">
-              <div className="relative w-10 h-10 sm:w-12 sm:h-12">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl \
-                  group-hover:scale-110 group-hover:rotate-180 transition-all duration-700" />
-                <div className="absolute inset-1 bg-black rounded-lg" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xl sm:text-2xl font-bold text-white">E</span>
+            {/* Logo and Theme Toggle */}
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-3 group cursor-pointer">
+                <div className="relative w-10 h-10 sm:w-12 sm:h-12">
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl \
+                    group-hover:scale-110 group-hover:rotate-180 transition-all duration-700" />
+                  <div className="absolute inset-1 bg-black rounded-lg" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-xl sm:text-2xl font-bold text-white">E</span>
+                  </div>
                 </div>
+                <span className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r \
+                  from-purple-400 to-blue-400 group-hover:from-purple-300 group-hover:to-blue-300 \
+                  transition-all duration-300">EventVerse</span>
               </div>
-              <span className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r \
-                from-purple-400 to-blue-400 group-hover:from-purple-300 group-hover:to-blue-300 \
-                transition-all duration-300">EventVerse</span>
+              <div className="h-8 w-px bg-gray-600 mx-1" />
+              <ThemeToggle />
             </div>
 
             {/* Desktop Navigation */}
