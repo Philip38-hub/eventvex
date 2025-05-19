@@ -111,7 +111,7 @@ const TokenizedTicketing = () => {
         {/* Token Actions */}
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
-            <a href="/buy" className="w-full sm:w-auto">
+            <a href="/create" className="w-full sm:w-auto">
               <button className="w-full sm:w-auto relative px-4 sm:px-6 py-3 rounded-xl overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600" />
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

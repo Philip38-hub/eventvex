@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react';
 import Home from './pages/Home';
 import Discover from './pages/Discover';
 import Testimonials from './pages/Testimonials';
@@ -19,6 +18,7 @@ import Layout from './Layout';
 import './index.css';
 import WaitlistPage from './pages/WaitingList';
 import QuantumTicketResale from './pages/QuantamTicketResale';
+import CreateEvent from './pages/CreateEvent';
 
 const router = createBrowserRouter([
   {
@@ -61,7 +61,7 @@ const router = createBrowserRouter([
     path: "mint",
     element: <Layout><MintNFT /></Layout>,
   },
-  
+
   {
     path: "event-details",
     element: <Layout><EventDetails /></Layout>,
@@ -69,6 +69,11 @@ const router = createBrowserRouter([
   {
     path: "chatbit",
     element: <Chatbit />,
+  },
+
+  {
+    path: "create",
+    element: <Layout><CreateEvent /></Layout>,
   },
 
   {
