@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import neuralImage from "../assets/botImage.png"; // This image needs to exist in your assets folder
+import { handleChatbotQuery } from "../utils/chatbot/chatHandler.js";
 
 const Chatbit = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -8,28 +9,17 @@ const Chatbit = () => {
   const [input, setInput] = useState(""); // User input
   const [isLoading, setIsLoading] = useState(false);
 
-  // Send message to the backend API and get response
-  const sendMessageToBackend = async (message) => {
+  // Process message locally using our chatbot logic
+  const processMessage = async (message) => {
     try {
       setIsLoading(true);
-      const response = await fetch('http://localhost:8080/api/chatbot', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message }),
-      });
-      
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      
-      const data = await response.json();
-      return data.response;
+      // Use our local chatbot implementation instead of making an API call
+      const response = await handleChatbotQuery(message);
+      return response;
       
     } catch (error) {
-      console.error('Error sending message to API:', error);
-      return "Sorry, I'm having trouble connecting to the server right now. Please try again later.";
+      console.error('Error processing message:', error);
+      return "Sorry, I'm having trouble processing your request right now. Please try again.";
     } finally {
       setIsLoading(false);
     }
@@ -48,8 +38,8 @@ const Chatbit = () => {
     // Add typing indicator
     setMessages((prev) => [...prev, { sender: "ai", isTyping: true }]);
 
-    // Get response from backend
-    const aiResponse = await sendMessageToBackend(inputCopy);
+    // Get response from our local chatbot
+    const aiResponse = await processMessage(inputCopy);
     
     // Remove typing indicator and add actual response
     setMessages((prev) => prev.filter(msg => !msg.isTyping));
