@@ -232,7 +232,7 @@ const UltimateEventPlatform = () => {
               immersive venues, and next-generation event management.
             </p>
 
-            <div className="flex flex-col xs:flex-row justify-center lg:justify-start gap-4 sm:gap-6">
+            <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 sm:gap-6">
               <a href="/ticketsell" className="w-full xs:w-auto">
                 <button className="w-full group relative px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.03]">
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600" />
