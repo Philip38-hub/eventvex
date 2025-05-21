@@ -121,7 +121,7 @@ Eventverse is a revolutionary blockchain-based ticketing platform engineered to 
 
 5. **Go Live!**
 
-   - Promote the page across social media and mailing lists.
+   - [Eventverse](https://event-verse.netlify.app/)
 
 ## 🔵 Base Integration
 
