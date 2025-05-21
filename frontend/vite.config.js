@@ -12,4 +12,5 @@ export default defineConfig({
   optimizeDeps: {
     include: ['@chakra-ui/react'],
   },
+  base: "/eventvex",
 });
