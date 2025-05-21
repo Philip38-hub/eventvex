@@ -74,14 +74,9 @@ Eventverse is a revolutionary blockchain-based ticketing platform engineered to 
 
 3. **Run the application locally:**
 
-   ```bash
-   # First, install and run the backend server
-   cd server
-   npm install
-   npm run dev
-   
-   # In a new terminal, run the frontend
-   cd eventvax
+   ```bash   
+   # Run the program
+   cd frontend
    npm install
    npm run dev
    ```
